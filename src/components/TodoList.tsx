@@ -17,19 +17,18 @@ const TodoList: React.FC<Props> = ({
   completedTodos,
   setCompletedTodos,
 }) => {
-  const renderLoader = () => <p>Loading</p>;
   return (
-    <Suspense fallback={renderLoader()}>
-      <div className="container">
-        <Droppable droppableId="TodosList">
-          {(provided, snapshot) => (
-            <div
-              className={`todos ${snapshot.isDraggingOver ? "dragactive" : ""}`}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              <span className="todos__heading">Active Tasks</span>
-              {todos?.map((todo, index) => (
+    <div className="container">
+      <Droppable droppableId="TodosList">
+        {(provided, snapshot) => (
+          <div
+            className={`todos ${snapshot.isDraggingOver ? "dragactive" : ""}`}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <span className="todos__heading">Active Tasks</span>
+            {todos?.map((todo, index) => (
+              <Suspense fallback={<div />}>
                 <SingleTodo
                   todos={todos}
                   index={index}
@@ -37,23 +36,25 @@ const TodoList: React.FC<Props> = ({
                   key={todo.id}
                   setTodos={setTodos}
                 />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+              </Suspense>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
 
-        <Droppable droppableId="TodosComplete">
-          {(provided, snapshot) => (
-            <div
-              className={`todos complete ${
-                snapshot.isDraggingOver ? "dragcomplete" : ""
-              }`}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              <span className="todos__heading">Completed Tasks</span>
-              {completedTodos.map((todo, index) => (
+      <Droppable droppableId="TodosComplete">
+        {(provided, snapshot) => (
+          <div
+            className={`todos complete ${
+              snapshot.isDraggingOver ? "dragcomplete" : ""
+            }`}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <span className="todos__heading">Completed Tasks</span>
+            {completedTodos.map((todo, index) => (
+              <Suspense fallback={<div />}>
                 <SingleTodo
                   key={todo.id}
                   index={index}
@@ -61,13 +62,13 @@ const TodoList: React.FC<Props> = ({
                   todos={todos}
                   setTodos={setTodos}
                 />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </Suspense>
+              </Suspense>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </div>
   );
 };
 

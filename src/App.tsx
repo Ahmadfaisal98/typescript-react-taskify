@@ -56,10 +56,8 @@ const App: React.FC = () => {
     setTodos(active);
   };
 
-  const renderLoader = () => <p>Loading</p>;
-
   return (
-    <Suspense fallback={renderLoader()}>
+    <Suspense fallback={<div />}>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="App">
           <span className="heading">Taskify</span>
